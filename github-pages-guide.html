@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages 部署指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #24292e 0%, #0366d6 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            background: linear-gradient(45deg, #24292e, #0366d6);
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #0366d6;
+        }
+        
+        .step h3 {
+            color: #0366d6;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-number {
+            background: #0366d6;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .substep {
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #0366d6, #0256cc);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .screenshot {
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐙 GitHub Pages 部署指南</h1>
+            <p>将马克思主义答题挑战游戏部署到GitHub Pages</p>
+        </div>
+        
+        <div class="info">
+            <strong>📋 准备工作：</strong>
+            <ul>
+                <li>需要一个GitHub账号（免费注册）</li>
+                <li>项目文件已准备完毕</li>
+                <li>了解基本的Git操作（可选，也可以使用网页界面）</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <h3><span class="step-number">1</span>创建GitHub仓库</h3>
+            <div class="substep">
+                <strong>1.1</strong> 访问 <a href="https://github.com" target="_blank">GitHub.com</a> 并登录
+            </div>
+            <div class="substep">
+                <strong>1.2</strong> 点击右上角的 "+" 按钮，选择 "New repository"
+            </div>
+            <div class="substep">
+                <strong>1.3</strong> 填写仓库信息：
+                <ul>
+                    <li><strong>Repository name:</strong> marxism-quiz-game（或其他名称）</li>
+                    <li><strong>Description:</strong> 马克思主义答题挑战游戏</li>
+                    <li>选择 <strong>Public</strong>（公开仓库，免费用户必须选择）</li>
+                    <li>勾选 "Add a README file"</li>
+                </ul>
+            </div>
+            <div class="substep">
+                <strong>1.4</strong> 点击 "Create repository" 创建仓库
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3><span class="step-number">2</span>上传项目文件</h3>
+            
+            <div class="warning">
+                <strong>⚠️ 重要：</strong> 确保以下文件都在项目文件夹中：
+                <ul>
+                    <li>code.html（主游戏文件）</li>
+                    <li>effects_demo.html（特效演示）</li>
+                    <li>README.md（项目说明）</li>
+                    <li>其他配置文件</li>
+                </ul>
+            </div>
+            
+            <h4>方法一：使用GitHub网页界面（推荐新手）</h4>
+            <div class="substep">
+                <strong>2.1</strong> 在仓库页面点击 "uploading an existing file"
+            </div>
+            <div class="substep">
+                <strong>2.2</strong> 拖拽所有项目文件到上传区域
+            </div>
+            <div class="substep">
+                <strong>2.3</strong> 在底部填写提交信息："Initial commit - 上传游戏文件"
+            </div>
+            <div class="substep">
+                <strong>2.4</strong> 点击 "Commit changes" 提交文件
+            </div>
+            
+            <h4>方法二：使用Git命令行</h4>
+            <div class="code">
+git clone https://github.com/你的用户名/仓库名.git
+cd 仓库名
+# 将所有项目文件复制到这个文件夹
+git add .
+git commit -m "Initial commit - 上传游戏文件"
+git push origin main
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3><span class="step-number">3</span>启用GitHub Pages</h3>
+            <div class="substep">
+                <strong>3.1</strong> 在仓库页面点击 "Settings" 选项卡
+            </div>
+            <div class="substep">
+                <strong>3.2</strong> 在左侧菜单中找到并点击 "Pages"
+            </div>
+            <div class="substep">
+                <strong>3.3</strong> 在 "Source" 部分选择：
+                <ul>
+                    <li><strong>Source:</strong> Deploy from a branch</li>
+                    <li><strong>Branch:</strong> main（或master）</li>
+                    <li><strong>Folder:</strong> / (root)</li>
+                </ul>
+            </div>
+            <div class="substep">
+                <strong>3.4</strong> 点击 "Save" 保存设置
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3><span class="step-number">4</span>配置自定义首页</h3>
+            <div class="substep">
+                <strong>4.1</strong> 由于我们的主文件是 code.html，需要创建一个 index.html 文件作为首页
+            </div>
+            <div class="substep">
+                <strong>4.2</strong> 在仓库中创建新文件 "index.html"，内容如下：
+            </div>
+            <div class="code">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta http-equiv="refresh" content="0; url=code.html"&gt;
+    &lt;title&gt;马克思主义答题挑战&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;p&gt;正在跳转到游戏页面...&lt;/p&gt;
+    &lt;p&gt;&lt;a href="code.html"&gt;如果没有自动跳转，请点击这里&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </div>
+        </div>
+        
+        <div class="step">
+            <h3><span class="step-number">5</span>访问您的网站</h3>
+            <div class="substep">
+                <strong>5.1</strong> 等待几分钟让GitHub Pages构建完成
+            </div>
+            <div class="substep">
+                <strong>5.2</strong> 访问您的网站地址：
+                <div class="code">https://你的用户名.github.io/仓库名/</div>
+            </div>
+            <div class="substep">
+                <strong>5.3</strong> 直接访问游戏页面：
+                <div class="code">https://你的用户名.github.io/仓库名/code.html</div>
+            </div>
+        </div>
+        
+        <div class="success">
+            <strong>🎉 部署成功！</strong> 现在您可以将链接分享给同学们了。
+        </div>
+        
+        <div class="warning">
+            <strong>📝 注意事项：</strong>
+            <ul>
+                <li>GitHub Pages 可能需要几分钟时间来部署</li>
+                <li>每次更新文件后，网站会自动重新部署</li>
+                <li>免费版GitHub Pages有一些使用限制（通常足够个人使用）</li>
+                <li>确保仓库是公开的（Private仓库需要付费版才能使用Pages）</li>
+            </ul>
+        </div>
+        
+        <div class="info">
+            <strong>🔧 常见问题解决：</strong>
+            <ul>
+                <li><strong>404错误：</strong> 检查文件名是否正确，确保 code.html 存在</li>
+                <li><strong>样式丢失：</strong> 确保所有CSS都在HTML文件内部</li>
+                <li><strong>更新不生效：</strong> 清除浏览器缓存或等待几分钟</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="https://github.com" target="_blank" class="btn">🐙 访问GitHub</a>
+            <a href="https://docs.github.com/pages" target="_blank" class="btn">📚 GitHub Pages文档</a>
+            <a href="deploy.html" class="btn">🔙 返回部署指南</a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px; color: #666;">
+            <p>GitHub Pages - 免费的静态网站托管服务</p>
+        </div>
+    </div>
+</body>
+</html>

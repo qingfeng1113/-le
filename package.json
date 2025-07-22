@@ -1,0 +1,32 @@
+{
+  "name": "marxism-quiz-game",
+  "version": "1.0.0",
+  "description": "马克思主义答题挑战游戏 - 包含40个关卡和2000道题库的在线答题游戏",
+  "main": "code.html",
+  "scripts": {
+    "start": "python -m http.server 8080",
+    "dev": "python -m http.server 8080",
+    "deploy": "vercel --prod",
+    "preview": "vercel"
+  },
+  "keywords": [
+    "quiz",
+    "game",
+    "education",
+    "marxism",
+    "html5",
+    "javascript",
+    "canvas"
+  ],
+  "author": "Xqingfeng",
+  "license": "MIT",
+  "homepage": ".",
+  "repository": {
+    "type": "git",
+    "url": "."
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

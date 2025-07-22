@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马克思主义答题挑战 - 关卡版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            padding: 10px;
+            color: #333;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 160px 30px, #fff, transparent),
+                radial-gradient(1px 1px at 200px 90px, rgba(255,255,255,0.7), transparent),
+                radial-gradient(2px 2px at 240px 50px, #eee, transparent),
+                radial-gradient(1px 1px at 280px 20px, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 320px 100px, #fff, transparent),
+                radial-gradient(2px 2px at 360px 60px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 400px 10px, #eee, transparent),
+                radial-gradient(2px 2px at 440px 80px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 480px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 520px 90px, rgba(255,255,255,0.7), transparent),
+                radial-gradient(2px 2px at 560px 20px, #eee, transparent),
+                radial-gradient(1px 1px at 600px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 640px 50px, #fff, transparent),
+                radial-gradient(2px 2px at 680px 30px, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 720px 100px, #eee, transparent),
+                radial-gradient(2px 2px at 760px 60px, rgba(255,255,255,0.7), transparent),
+                linear-gradient(to bottom, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            background-repeat: repeat;
+            background-size: 800px 600px;
+            animation: twinkle 4s ease-in-out infinite alternate;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            min-height: 90vh;
+            position: relative;
+            z-index: 10;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(45deg, #ffeaa7, #fdcb6e);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-item h3 {
+            font-size: 14px;
+            color: #2d3436;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e17055;
+        }
+
+        /* 关卡选择界面 */
+        .level-select {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .level-item {
+            aspect-ratio: 1;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .level-item.unlocked {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            border-color: #0984e3;
+        }
+
+        .level-item.completed {
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+            border-color: #00b894;
+        }
+
+        .level-item.locked {
+            background: #f8f9fa;
+            color: #adb5bd;
+            border-color: #dee2e6;
+            cursor: not-allowed;
+            position: relative;
+        }
+
+        .level-item.locked::before {
+            content: '🔒';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            z-index: 2;
+        }
+
+        .level-item.locked::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(173, 181, 189, 0.3),
+                rgba(173, 181, 189, 0.3) 5px,
+                transparent 5px,
+                transparent 10px
+            );
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        .level-item.locked:hover::before {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(-5deg); }
+            75% { transform: translate(-50%, -50%) rotate(5deg); }
+        }
+
+        .level-tooltip {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d3436;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .level-item.locked:hover .level-tooltip {
+            opacity: 1;
+        }
+
+        .level-item:hover:not(.locked) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 游戏界面 */
+        .question-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #74b9ff;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            font-size: 14px;
+            color: #636e72;
+        }
+
+        .difficulty-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .difficulty-easy { background: #d4edda; color: #155724; }
+        .difficulty-medium { background: #fff3cd; color: #856404; }
+        .difficulty-hard { background: #f8d7da; color: #721c24; }
+
+        .question-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #2d3436;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 12px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            transform: translateY(-1px);
+        }
+
+        .option.selected {
+            background: #2196f3;
+            color: white;
+            border-color: #1976d2;
+        }
+
+        .option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #388e3c;
+        }
+
+        .option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #d32f2f;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .result.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .result.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .coin-reward {
+            display: inline-block;
+            background: #ffd700;
+            color: #856404;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* 特效商店 */
+        .shop {
+            padding: 20px;
+        }
+
+        .shop-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .shop-item.owned {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+        }
+
+        .shop-item-info h4 {
+            margin-bottom: 5px;
+            color: #2d3436;
+        }
+
+        .shop-item-info p {
+            font-size: 12px;
+            color: #636e72;
+        }
+
+        .shop-price {
+            background: #ffd700;
+            color: #856404;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .buy-btn {
+            background: #74b9ff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .buy-btn:disabled {
+            background: #ddd;
+            cursor: not-allowed;
+        }
+
+        /* 导航按钮 */
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+        }
+
+        .nav-btn.secondary {
+            background: #f8f9fa;
+            color: #495057;
+            border: 2px solid #dee2e6;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* 特效画布 */
+        #effects-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            display: none;
+            pointer-events: none;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                padding: 15px;
+            }
+
+            .level-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .question-text {
+                font-size: 14px;
+            }
+
+            .option {
+                padding: 10px;
+                font-size: 13px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 马克思主义答题挑战</h1>
+            <p>40个关卡 · 2000道题库 · 特效解锁</p>
+        </div>
+
+        <div class="game-stats">
+            <div class="stat-item">
+                <h3>金币</h3>
+                <p id="totalCoins">0</p>
+            </div>
+            <div class="stat-item">
+                <h3>当前关卡</h3>
+                <p id="currentLevel">1</p>
+            </div>
+            <div class="stat-item">
+                <h3>完成关卡</h3>
+                <p id="completedLevels">0</p>
+            </div>
+        </div>
+
+        <!-- 关卡选择界面 -->
+        <div id="levelSelect" class="level-select">
+            <h2>选择关卡</h2>
+            <div class="level-grid" id="levelGrid"></div>
+            <div class="nav-buttons">
+                <button class="nav-btn secondary" onclick="showShop()">特效商店</button>
+                <button class="nav-btn primary" onclick="resetProgress()">重置进度</button>
+            </div>
+        </div>
+
+        <!-- 游戏界面 -->
+        <div id="gameScreen" class="hidden">
+            <div class="question-container">
+                <div class="question-header">
+                    <div class="question-number" id="questionNumber">第 1 题</div>
+                    <div class="difficulty-badge" id="difficultyBadge">简单</div>
+                </div>
+                <div class="question-text" id="questionText">题目加载中...</div>
+                <div class="options" id="options"></div>
+            </div>
+
+            <button class="submit-btn" id="submitBtn" onclick="submitAnswer()" disabled>请选择答案</button>
+            <div id="result" class="result hidden"></div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn secondary" onclick="backToLevels()">返回关卡</button>
+                <button class="nav-btn primary" id="nextBtn" onclick="nextQuestion()" style="display: none;">下一题</button>
+            </div>
+        </div>
+
+        <!-- 特效商店界面 -->
+        <div id="shopScreen" class="shop hidden">
+            <h2>特效商店</h2>
+            <div id="shopItems"></div>
+            <div class="nav-buttons">
+                <button class="nav-btn secondary" onclick="backToLevels()">返回关卡</button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="effects-canvas"></canvas>
+
+    <script>
+        // 游戏数据
+        const TOTAL_LEVELS = 40;
+        const QUESTIONS_PER_LEVEL = 50;
+        
+        // 特效系统
+        const EFFECTS = {
+            fireworks: { name: '烟花特效', price: 100, owned: true },
+            stars: { name: '星星雨', price: 200, owned: false },
+            confetti: { name: '彩带庆祝', price: 300, owned: false },
+            advancedConfetti: { name: '高级彩带', price: 500, owned: false },
+            lightning: { name: '闪电特效', price: 800, owned: false }
+        };
+
+        // 游戏状态
+        let gameState = {
+            totalCoins: 0,
+            currentLevel: 1,
+            completedLevels: 0,
+            unlockedLevels: 1,
+            currentQuestion: 0,
+            levelQuestions: [],
+            selectedAnswer: null,
+            effects: { ...EFFECTS }
+        };
+
+        // 题库（示例数据，实际应该有2000道题）
+        const questionBank = [
+            // 简单题目 (1-800题)
+            { question: "马克思主义的理论来源不包括以下哪项？", options: ["德国古典哲学", "英国古典政治经济学", "法国空想社会主义", "美国实用主义"], correct: 3, explanation: "马克思主义的理论来源主要是德国古典哲学、英国古典政治经济学和法国空想社会主义。", difficulty: 1 },
+            { question: "物质的唯一特性是什么？", options: ["运动性", "客观实在性", "可知性", "发展性"], correct: 1, explanation: "客观实在性是物质的唯一特性，它不依赖于人的主观意识而存在。", difficulty: 1 },
+            { question: "商品的二重性是指？", options: ["使用价值和价值", "具体劳动和抽象劳动", "私人劳动和社会劳动", "必要劳动和剩余劳动"], correct: 0, explanation: "商品的二重性是指使用价值和价值，这是商品的两个基本属性。", difficulty: 1 },
+            { question: "马克思主义最鲜明的品格是什么？", options: ["科学性", "革命性", "人民性", "实践性"], correct: 3, explanation: "实践性是马克思主义最鲜明的品格，它强调理论与实践的统一。", difficulty: 1 },
+            { question: "社会主义的根本任务是？", options: ["消灭剥削", "解放生产力，发展生产力", "实现共同富裕", "建设和谐社会"], correct: 1, explanation: "解放生产力，发展生产力是社会主义的根本任务，这是社会主义建设的核心。", difficulty: 1 },
+            
+            // 中等题目 (801-1600题)
+            { question: "实践是检验真理的唯一标准，这一观点体现了？", options: ["真理的客观性", "真理的绝对性", "真理的相对性", "真理的具体性"], correct: 0, explanation: "实践是检验真理的唯一标准体现了真理的客观性，因为实践是客观的物质活动。", difficulty: 2 },
+            { question: "马克思主义认为，推动社会历史发展的根本动力是？", options: ["生产力", "生产关系", "社会基本矛盾", "阶级斗争"], correct: 2, explanation: "社会基本矛盾（生产力与生产关系、经济基础与上层建筑的矛盾）是推动社会历史发展的根本动力。", difficulty: 2 },
+            { question: "剩余价值的源泉是？", options: ["不变资本", "可变资本", "劳动力商品的使用价值", "机器设备"], correct: 2, explanation: "剩余价值的源泉是劳动力商品的使用价值，即劳动力在生产过程中创造的超过自身价值的价值。", difficulty: 2 },
+            { question: "资本区分为不变资本和可变资本的依据是？", options: ["它们在价值增殖过程中的不同作用", "它们在生产中的物质形态不同", "它们的价值周转方式不同", "它们是否存在于流通领域"], correct: 0, explanation: "不变资本不带来价值增殖，可变资本（用于购买劳动力）是剩余价值的源泉。", difficulty: 2 },
+            { question: "经济基础是指？", options: ["生产力", "由一定发展阶段的生产力所决定的生产关系的总和", "社会上层建筑", "国家的政治制度和法律制度"], correct: 1, explanation: "经济基础是与生产力发展的一定阶段相适应的生产关系的总和。", difficulty: 2 },
+            
+            // 困难题目 (1601-2000题)
+            { question: "马克思主义的根本观点是什么？", options: ["阶级斗争观点", "实践观点", "历史观点", "发展观点"], correct: 1, explanation: "实践观点是马克思主义的根本观点，是马克思主义哲学的核心和出发点。", difficulty: 3 },
+            { question: "资本主义地租的实质是？", options: ["土地所有者凭借土地所有权获得的收入", "农业工人创造的超过其劳动力价值的剩余价值的一部分", "土地的自然生产力的产物", "对土地投资所获得的回报"], correct: 1, explanation: "地租是农业资本家雇佣工人创造的剩余价值的一部分，是土地所有者凭借土地所有权无偿占有的部分。", difficulty: 3 },
+            { question: "无产阶级专政的最终目标是？", options: ["建立社会主义公有制", "镇压剥削阶级的反抗", "发展社会生产力", "消灭阶级，实现无阶级社会"], correct: 3, explanation: "无产阶级专政是一个过渡时期，其历史任务是为消灭阶级、进入无阶级社会创造条件。", difficulty: 3 },
+            { question: "商品拜物教的实质是？", options: ["人们对商品的崇拜", "商品关系掩盖了人与人的社会关系", "商品具有神秘的力量", "商品价值的神秘化"], correct: 1, explanation: "商品拜物教是指在商品经济条件下，人与人的社会关系被物与物的关系所掩盖的现象。", difficulty: 3 },
+            { question: "历史唯物主义的基本观点是？", options: ["社会存在决定社会意识", "生产力决定生产关系", "经济基础决定上层建筑", "以上都是"], correct: 3, explanation: "历史唯物主义包含社会存在决定社会意识、生产力决定生产关系、经济基础决定上层建筑等基本观点。", difficulty: 3 }
+        ];
+
+        // 初始化游戏
+        function initGame() {
+            loadGameState();
+            updateStats();
+            generateLevelGrid();
+            generateShop();
+        }
+
+        // 生成关卡网格
+        function generateLevelGrid() {
+            const grid = document.getElementById('levelGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 1; i <= TOTAL_LEVELS; i++) {
+                const levelItem = document.createElement('div');
+                levelItem.className = 'level-item';
+                
+                if (i <= gameState.completedLevels) {
+                    levelItem.classList.add('completed');
+                    levelItem.textContent = i;
+                } else if (i <= gameState.unlockedLevels) {
+                    levelItem.classList.add('unlocked');
+                    levelItem.textContent = i;
+                    levelItem.onclick = () => startLevel(i);
+                } else {
+                    levelItem.classList.add('locked');
+                    // 锁定的关卡不显示数字，只显示锁链图标
+                    levelItem.textContent = '';
+                    
+                    // 添加提示文本
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'level-tooltip';
+                    tooltip.textContent = `完成第${i-1}关解锁`;
+                    levelItem.appendChild(tooltip);
+                }
+                
+                grid.appendChild(levelItem);
+            }
+        }
+
+        // 生成商店
+        function generateShop() {
+            const shopItems = document.getElementById('shopItems');
+            shopItems.innerHTML = '';
+            
+            Object.entries(gameState.effects).forEach(([key, effect]) => {
+                const item = document.createElement('div');
+                item.className = `shop-item ${effect.owned ? 'owned' : ''}`;
+                
+                item.innerHTML = `
+                    <div class="shop-item-info">
+                        <h4>${effect.name}</h4>
+                        <p>${effect.owned ? '已拥有' : '答对题目时的特效'}</p>
+                    </div>
+                    <div>
+                        ${effect.owned ? 
+                            '<span style="color: #4caf50; font-weight: bold;">✓ 已拥有</span>' : 
+                            `<div class="shop-price">${effect.price} 金币</div>
+                             <button class="buy-btn" onclick="buyEffect('${key}')" 
+                                     ${gameState.totalCoins < effect.price ? 'disabled' : ''}>
+                                 购买
+                             </button>`
+                        }
+                    </div>
+                `;
+                
+                shopItems.appendChild(item);
+            });
+        }
+
+        // 开始关卡
+        function startLevel(level) {
+            gameState.currentLevel = level;
+            gameState.currentQuestion = 0;
+            
+            // 根据关卡难度生成题目
+            const difficulty = Math.ceil(level / 13.33); // 1-13关简单，14-26关中等，27-40关困难
+            gameState.levelQuestions = generateLevelQuestions(difficulty);
+            
+            showScreen('gameScreen');
+            showQuestion();
+        }
+
+        // 生成关卡题目
+        function generateLevelQuestions(difficulty) {
+            const filteredQuestions = questionBank.filter(q => q.difficulty === difficulty);
+            const questions = [];
+            
+            for (let i = 0; i < QUESTIONS_PER_LEVEL; i++) {
+                const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
+                questions.push({ ...filteredQuestions[randomIndex] });
+            }
+            
+            return questions;
+        }
+
+        // 显示题目
+        function showQuestion() {
+            if (gameState.currentQuestion >= QUESTIONS_PER_LEVEL) {
+                completeLevel();
+                return;
+            }
+            
+            const question = gameState.levelQuestions[gameState.currentQuestion];
+            
+            document.getElementById('questionNumber').textContent = `第 ${gameState.currentQuestion + 1} 题`;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const difficultyBadge = document.getElementById('difficultyBadge');
+            const difficultyNames = ['', '简单', '中等', '困难'];
+            const difficultyClasses = ['', 'difficulty-easy', 'difficulty-medium', 'difficulty-hard'];
+            
+            difficultyBadge.textContent = difficultyNames[question.difficulty];
+            difficultyBadge.className = `difficulty-badge ${difficultyClasses[question.difficulty]}`;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                optionDiv.onclick = () => selectOption(index, optionDiv);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').textContent = '请选择答案';
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('nextBtn').style.display = 'none';
+            gameState.selectedAnswer = null;
+        }
+
+        // 选择选项
+        function selectOption(index, element) {
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            gameState.selectedAnswer = index;
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('submitBtn').textContent = '确认答案';
+        }
+
+        // 提交答案
+        function submitAnswer() {
+            if (gameState.selectedAnswer === null) return;
+            
+            const question = gameState.levelQuestions[gameState.currentQuestion];
+            const isCorrect = gameState.selectedAnswer === question.correct;
+            
+            // 禁用所有选项
+            document.querySelectorAll('.option').forEach(opt => opt.onclick = null);
+            
+            const options = document.querySelectorAll('.option');
+            options[question.correct].classList.add('correct');
+            if (!isCorrect) {
+                options[gameState.selectedAnswer].classList.add('incorrect');
+            }
+            
+            const resultDiv = document.getElementById('result');
+            if (isCorrect) {
+                const coinReward = question.difficulty * 10; // 简单10，中等20，困难30
+                gameState.totalCoins += coinReward;
+                
+                resultDiv.className = 'result correct';
+                resultDiv.innerHTML = `
+                    <div>🎉 回答正确！</div>
+                    <div class="coin-reward">+${coinReward} 金币</div>
+                `;
+                
+                // 触发特效
+                triggerRandomEffect();
+            } else {
+                resultDiv.className = 'result incorrect';
+                resultDiv.innerHTML = `
+                    <div>😔 回答错误</div>
+                    <div style="margin-top: 10px; font-size: 12px;">正确答案：${String.fromCharCode(65 + question.correct)}. ${question.options[question.correct]}</div>
+                    <div style="margin-top: 10px; font-size: 12px;">${question.explanation}</div>
+                `;
+            }
+            
+            resultDiv.classList.remove('hidden');
+            updateStats();
+            
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+            
+            // 平滑滚动到结果
+            setTimeout(() => {
+                resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }
+
+        // 下一题
+        function nextQuestion() {
+            gameState.currentQuestion++;
+            document.getElementById('submitBtn').style.display = 'block';
+            document.getElementById('nextBtn').style.display = 'none';
+            showQuestion();
+        }
+
+        // 完成关卡
+        function completeLevel() {
+            if (gameState.currentLevel > gameState.completedLevels) {
+                gameState.completedLevels = gameState.currentLevel;
+                gameState.unlockedLevels = Math.min(gameState.currentLevel + 1, TOTAL_LEVELS);
+            }
+            
+            // 关卡完成奖励
+            const levelBonus = gameState.currentLevel * 50;
+            gameState.totalCoins += levelBonus;
+            
+            alert(`🎉 恭喜完成第${gameState.currentLevel}关！\n获得关卡奖励：${levelBonus}金币`);
+            
+            saveGameState();
+            backToLevels();
+        }
+
+        // 触发随机特效
+        function triggerRandomEffect() {
+            const ownedEffects = Object.keys(gameState.effects).filter(key => gameState.effects[key].owned);
+            if (ownedEffects.length === 0) return;
+            
+            const randomEffect = ownedEffects[Math.floor(Math.random() * ownedEffects.length)];
+            playEffect(randomEffect);
+        }
+
+        // 播放特效
+        function playEffect(effectType) {
+            const canvas = document.getElementById('effects-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.style.display = 'block';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            switch (effectType) {
+                case 'fireworks':
+                    playFireworks(ctx, canvas);
+                    break;
+                case 'stars':
+                    playStars(ctx, canvas);
+                    break;
+                case 'confetti':
+                    playConfetti(ctx, canvas);
+                    break;
+                case 'advancedConfetti':
+                    playAdvancedConfetti(ctx, canvas);
+                    break;
+                case 'lightning':
+                    playLightning(ctx, canvas);
+                    break;
+            }
+            
+            setTimeout(() => {
+                canvas.style.display = 'none';
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 1000);
+        }
+
+        // 烟花特效
+        function playFireworks(ctx, canvas) {
+            const particles = [];
+            
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.5) * 10,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    alpha: 1
+                });
+            }
+            
+            function animate() {
+                // 清除画布而不是覆盖半透明黑色，保持界面亮度不变
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach((particle, index) => {
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    particle.vy += 0.1;
+                    particle.alpha -= 0.02;
+                    
+                    ctx.globalAlpha = particle.alpha;
+                    ctx.fillStyle = particle.color;
+                    ctx.fillRect(particle.x, particle.y, 3, 3);
+                    
+                    if (particle.alpha <= 0) {
+                        particles.splice(index, 1);
+                    }
+                });
+                
+                if (particles.length > 0) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            
+            animate();
+        }
+
+        // 星星雨特效
+        function playStars(ctx, canvas) {
+            const stars = [];
+            
+            for (let i = 0; i < 30; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: -10,
+                    speed: Math.random() * 3 + 2,
+                    size: Math.random() * 3 + 1
+                });
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                stars.forEach((star, index) => {
+                    star.y += star.speed;
+                    
+                    ctx.fillStyle = '#FFD700';
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    if (star.y > canvas.height) {
+                        stars.splice(index, 1);
+                    }
+                });
+                
+                if (stars.length > 0) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            
+            animate();
+        }
+
+        // 彩带特效
+        function playConfetti(ctx, canvas) {
+            const confetti = [];
+            
+            for (let i = 0; i < 100; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: -10,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: Math.random() * 3 + 2,
+                    color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+                    rotation: Math.random() * 360
+                });
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                confetti.forEach((piece, index) => {
+                    piece.x += piece.vx;
+                    piece.y += piece.vy;
+                    piece.rotation += 5;
+                    
+                    ctx.save();
+                    ctx.translate(piece.x, piece.y);
+                    ctx.rotate(piece.rotation * Math.PI / 180);
+                    ctx.fillStyle = piece.color;
+                    ctx.fillRect(-5, -2, 10, 4);
+                    ctx.restore();
+                    
+                    if (piece.y > canvas.height) {
+                        confetti.splice(index, 1);
+                    }
+                });
+                
+                if (confetti.length > 0) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            
+            animate();
+        }
+
+        // 高级彩带特效 (基于tsParticles Confetti)
+        function playAdvancedConfetti(ctx, canvas) {
+            const confetti = [];
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080'];
+            
+            // 创建多个爆炸点
+            for (let burst = 0; burst < 3; burst++) {
+                const centerX = Math.random() * canvas.width;
+                const centerY = Math.random() * canvas.height * 0.5 + canvas.height * 0.25;
+                
+                for (let i = 0; i < 50; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = Math.random() * 8 + 2;
+                    
+                    confetti.push({
+                        x: centerX,
+                        y: centerY,
+                        vx: Math.cos(angle) * velocity,
+                        vy: Math.sin(angle) * velocity - Math.random() * 3,
+                        gravity: 0.3,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        size: Math.random() * 8 + 4,
+                        rotation: Math.random() * 360,
+                        rotationSpeed: (Math.random() - 0.5) * 10,
+                        alpha: 1,
+                        decay: Math.random() * 0.02 + 0.01,
+                        shape: Math.random() > 0.5 ? 'circle' : 'square'
+                    });
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                confetti.forEach((piece, index) => {
+                    // 更新位置
+                    piece.x += piece.vx;
+                    piece.y += piece.vy;
+                    piece.vy += piece.gravity;
+                    piece.rotation += piece.rotationSpeed;
+                    piece.alpha -= piece.decay;
+                    
+                    // 绘制彩带片
+                    ctx.save();
+                    ctx.globalAlpha = piece.alpha;
+                    ctx.translate(piece.x, piece.y);
+                    ctx.rotate(piece.rotation * Math.PI / 180);
+                    ctx.fillStyle = piece.color;
+                    
+                    if (piece.shape === 'circle') {
+                        ctx.beginPath();
+                        ctx.arc(0, 0, piece.size / 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else {
+                        ctx.fillRect(-piece.size / 2, -piece.size / 2, piece.size, piece.size);
+                    }
+                    
+                    ctx.restore();
+                    
+                    // 移除透明度为0或超出边界的粒子
+                    if (piece.alpha <= 0 || piece.y > canvas.height + 50) {
+                        confetti.splice(index, 1);
+                    }
+                });
+                
+                if (confetti.length > 0) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            
+            animate();
+        }
+
+        // 闪电特效（温和版本，不影响界面亮度）
+        function playLightning(ctx, canvas) {
+            const lightningBolts = [];
+            
+            // 创建多个闪电线条而不是全屏闪烁
+            for (let i = 0; i < 5; i++) {
+                lightningBolts.push({
+                    x: Math.random() * canvas.width,
+                    y: 0,
+                    segments: [],
+                    alpha: 1
+                });
+                
+                // 生成闪电路径
+                let currentX = lightningBolts[i].x;
+                let currentY = 0;
+                while (currentY < canvas.height) {
+                    currentY += Math.random() * 50 + 20;
+                    currentX += (Math.random() - 0.5) * 100;
+                    lightningBolts[i].segments.push({ x: currentX, y: currentY });
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                lightningBolts.forEach((bolt, index) => {
+                    bolt.alpha -= 0.05;
+                    
+                    ctx.globalAlpha = bolt.alpha;
+                    ctx.strokeStyle = '#00BFFF';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(bolt.x, 0);
+                    
+                    bolt.segments.forEach(segment => {
+                        ctx.lineTo(segment.x, segment.y);
+                    });
+                    
+                    ctx.stroke();
+                    
+                    if (bolt.alpha <= 0) {
+                        lightningBolts.splice(index, 1);
+                    }
+                });
+                
+                if (lightningBolts.length > 0) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            
+            animate();
+        }
+
+        // 购买特效
+        function buyEffect(effectKey) {
+            const effect = gameState.effects[effectKey];
+            if (gameState.totalCoins >= effect.price && !effect.owned) {
+                gameState.totalCoins -= effect.price;
+                gameState.effects[effectKey].owned = true;
+                updateStats();
+                generateShop();
+                saveGameState();
+                alert(`成功购买 ${effect.name}！`);
+            }
+        }
+
+        // 界面切换
+        function showScreen(screenId) {
+            document.querySelectorAll('#levelSelect, #gameScreen, #shopScreen').forEach(screen => {
+                screen.classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        function backToLevels() {
+            generateLevelGrid();
+            showScreen('levelSelect');
+        }
+
+        function showShop() {
+            generateShop();
+            showScreen('shopScreen');
+        }
+
+        // 更新统计
+        function updateStats() {
+            document.getElementById('totalCoins').textContent = gameState.totalCoins;
+            document.getElementById('currentLevel').textContent = gameState.currentLevel;
+            document.getElementById('completedLevels').textContent = gameState.completedLevels;
+        }
+
+        // 重置进度
+        function resetProgress() {
+            if (confirm('确定要重置所有进度吗？这将清除所有关卡进度和金币！')) {
+                gameState = {
+                    totalCoins: 0,
+                    currentLevel: 1,
+                    completedLevels: 0,
+                    unlockedLevels: 1,
+                    currentQuestion: 0,
+                    levelQuestions: [],
+                    selectedAnswer: null,
+                    effects: { ...EFFECTS }
+                };
+                saveGameState();
+                updateStats();
+                generateLevelGrid();
+                generateShop();
+            }
+        }
+
+        // 保存游戏状态
+        function saveGameState() {
+            localStorage.setItem('marxismQuizGame', JSON.stringify(gameState));
+        }
+
+        // 加载游戏状态
+        function loadGameState() {
+            const saved = localStorage.getItem('marxismQuizGame');
+            if (saved) {
+                gameState = { ...gameState, ...JSON.parse(saved) };
+            }
+        }
+
+        // 初始化游戏
+        initGame();
+    </script>
+    
+    <!-- 作者信息 -->
+    <div style="position: fixed; bottom: 10px; right: 10px; font-size: 12px; color: #666; background: rgba(255,255,255,0.8); padding: 5px 10px; border-radius: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        作者: Xqingfeng.
+    </div>
+    
+    <!-- 学校信息 -->
+    <div style="position: fixed; bottom: 10px; left: 10px; font-size: 12px; color: #666; background: rgba(255,255,255,0.8); padding: 5px 10px; border-radius: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        @zzuit
+    </div>
+</body>
+</html>

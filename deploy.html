@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部署指南 - 马克思主义答题挑战</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .method {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #007bff;
+        }
+        
+        .method h3 {
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 部署指南</h1>
+            <p>将马克思主义答题挑战游戏部署到线上</p>
+        </div>
+        
+        <div class="success">
+            <strong>✅ 项目已准备就绪！</strong> 所有必要的配置文件已创建，您可以选择以下任一方式进行部署。
+        </div>
+        
+        <div class="method">
+            <h3>🌟 方案一：Vercel部署（推荐）</h3>
+            <div class="step">
+                <strong>步骤1：</strong> 安装Node.js
+                <div class="code">访问 https://nodejs.org/ 下载并安装最新版本</div>
+            </div>
+            <div class="step">
+                <strong>步骤2：</strong> 安装Vercel CLI
+                <div class="code">npm install -g vercel</div>
+            </div>
+            <div class="step">
+                <strong>步骤3：</strong> 部署项目
+                <div class="code">vercel --prod</div>
+            </div>
+            <div class="step">
+                <strong>步骤4：</strong> 按照提示完成部署，获得在线链接
+            </div>
+            <a href="https://vercel.com" target="_blank" class="btn">访问Vercel官网</a>
+        </div>
+        
+        <div class="method">
+            <h3>📱 方案二：Netlify部署（最简单）</h3>
+            <div class="step">
+                <strong>步骤1：</strong> 访问 <a href="https://netlify.com" target="_blank">netlify.com</a>
+            </div>
+            <div class="step">
+                <strong>步骤2：</strong> 注册账号并登录
+            </div>
+            <div class="step">
+                <strong>步骤3：</strong> 直接拖拽整个项目文件夹到Netlify页面
+            </div>
+            <div class="step">
+                <strong>步骤4：</strong> 等待自动部署完成，获得在线链接
+            </div>
+            <a href="https://netlify.com" target="_blank" class="btn">访问Netlify</a>
+        </div>
+        
+        <div class="method">
+            <h3>🐙 方案三：GitHub Pages部署</h3>
+            <div class="step">
+                <strong>步骤1：</strong> 将项目上传到GitHub仓库
+            </div>
+            <div class="step">
+                <strong>步骤2：</strong> 在仓库设置中找到"Pages"选项
+            </div>
+            <div class="step">
+                <strong>步骤3：</strong> 选择主分支作为源
+            </div>
+            <div class="step">
+                <strong>步骤4：</strong> 访问生成的链接：https://你的用户名.github.io/仓库名/code.html
+            </div>
+            <a href="https://github.com" target="_blank" class="btn">访问GitHub</a>
+        </div>
+        
+        <div class="method">
+            <h3>💻 本地预览</h3>
+            <div class="step">
+                <strong>使用Python：</strong>
+                <div class="code">python -m http.server 8080</div>
+                然后访问：http://localhost:8080/code.html
+            </div>
+        </div>
+        
+        <div class="warning">
+            <strong>⚠️ 注意事项：</strong>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li>确保所有文件都在同一个文件夹中</li>
+                <li>部署后主页面是 code.html</li>
+                <li>游戏数据会自动保存在浏览器本地存储中</li>
+                <li>建议使用HTTPS协议访问以获得最佳体验</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="code.html" class="btn">🎮 返回游戏</a>
+            <a href="effects_demo.html" class="btn">🎆 查看特效演示</a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px; color: #666;">
+            <p>作者: Xqingfeng. | @zzuit</p>
+        </div>
+    </div>
+</body>
+</html>
